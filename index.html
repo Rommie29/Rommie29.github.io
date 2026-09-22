@@ -1,30 +1,487 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Student</title>
+    <title>Resume - ชื่อ-นามสกุล นิสิต</title>
+    
+    <!-- Google Fonts: Prompt & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f2f5;
+        :root[data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --accent: #818cf8;
+            --border-color: #334155;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
-        h1 {
-            color: #1877f2;
-            font-size: 3rem;
-            background: white;
-            padding: 20px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+        :root[data-theme="light"] {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --accent: #6366f1;
+            --border-color: #e2e8f0;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Prompt', 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Nav & Controls */
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn-control {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-control:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 35px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .avatar-container {
+            position: relative;
+        }
+
+        .avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            background-color: var(--border-color);
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .student-id {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .profile-info h1 {
+            font-size: 2rem;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .profile-info h2 {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .contact-chip {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .contact-chip:hover {
+            color: var(--primary);
+        }
+
+        /* Main Grid Layout */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* Timeline Items */
+        .timeline-item {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .timeline-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Skill Bar */
+        .skill-item {
+            margin-bottom: 15px;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+
+        .skill-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+        }
+
+        /* Project Cards */
+        .project-item {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .project-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .project-title {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            background: var(--border-color);
+            color: var(--text-muted);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        /* Print Style */
+        @media print {
+            .controls { display: none; }
+            body { background: white; color: black; }
+            .card, .profile-card { border: 1px solid #ccc; box-shadow: none; background: white; }
+            :root { --text-color: #000; --text-muted: #555; --primary: #000; }
         }
     </style>
 </head>
 <body>
-    <h1>Hello Krairawee Boonthad</h1>
+
+    <div class="container">
+        <!-- Controls Header -->
+        <div class="controls">
+            <button class="btn-control" id="themeToggleBtn">
+                <i class="fa-solid fa-moon"></i> <span id="themeText">Light Mode</span>
+            </button>
+            <button class="btn-control" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> พิมพ์ / Save PDF
+            </button>
+        </div>
+
+        <!-- Profile Header Section -->
+        <div class="profile-card">
+            <div class="avatar-container">
+                <!-- เปลี่ยน URL รูปโปรไฟล์ของนิสิตตรงนี้ -->
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Student" alt="Profile" class="avatar">
+            </div>
+            <div class="profile-info">
+                <!-- แก้ไขข้อมูลส่วนตัว -->
+                <span class="student-id"><i class="fa-solid fa-id-card"></i> รหัสนิสิต: 65XXXXXX39</span>
+                <h1>นายสมชาย ใจดี</h1>
+                <h2>นิสิตสาขาวิทยาการคอมพิวเตอร์ (Computer Science)</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">
+                    สนใจการพัฒนาเว็บแอปพลิเคชัน (Full-Stack Web Development) และการออกแบบประสบการณ์ผู้ใช้ (UX/UI Design) กำลังมองหาโอกาสในการฝึกงาน
+                </p>
+                
+                <div class="contact-links">
+                    <a href="mailto:student@ku.th" class="contact-chip"><i class="fa-solid fa-envelope"></i> student@ku.th</a>
+                    <a href="https://github.com/username" target="_blank" class="contact-chip"><i class="fa-brands fa-github"></i> GitHub</a>
+                    <a href="tel:0812345678" class="contact-chip"><i class="fa-solid fa-phone"></i> 081-234-5678</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid-layout">
+            
+            <!-- Left Column -->
+            <div>
+                <!-- Education Card -->
+                <div class="card">
+                    <h3 class="card-title"><i class="fa-solid fa-graduation-cap"></i> ประวัติการศึกษา</h3>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">2565 - ปัจจุบัน</div>
+                        <div class="timeline-title">ปริญญาตรี วิทยาศาสตรบัณฑิต</div>
+                        <div class="timeline-subtitle">สาขาวิทยาการคอมพิวเตอร์ • มหาวิทยาลัยเกษตรศาสตร์</div>
+                        <div class="timeline-date" style="margin-top: 4px;">เกรดเฉลี่ยสะสม: 3.50</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2559 - 2564</div>
+                        <div class="timeline-title">มัธยมศึกษาตอนปลาย</div>
+                        <div class="timeline-subtitle">แผนการเรียน วิทย์-คณิต • โรงเรียนวิทยาศาสตร์</div>
+                    </div>
+                </div>
+
+                <!-- Skills Card -->
+                <div class="card">
+                    <h3 class="card-title"><i class="fa-solid fa-code"></i> ทักษะทางเทคนิค</h3>
+                    
+                    <div class="skill-item">
+                        <div class="skill-info"><span>HTML / CSS / JavaScript</span><span>85%</span></div>
+                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Python / Data Structures</span><span>75%</span></div>
+                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 75%;"></div></div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Git / GitHub</span><span>80%</span></div>
+                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-info"><span>SQL / Database Design</span><span>65%</span></div>
+                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 65%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Projects Card -->
+                <div class="card">
+                    <h3 class="card-title"><i class="fa-solid fa-diagram-project"></i> ผลงาน / โปรเจกต์</h3>
+                    
+                    <div class="project-item">
+                        <div class="project-header">
+                            <span class="project-title">Static Web Portfolio</span>
+                            <a href="#" style="color: var(--primary);"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">
+                            เว็บไซต์แนะนำตัวเองที่ Deploy บน GitHub Pages ด้วย HTML, CSS และ JavaScript Responsive บนทุกอุปกรณ์
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">HTML5</span>
+                            <span class="tag">CSS3</span>
+                            <span class="tag">GitHub Pages</span>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-header">
+                            <span class="project-title">Student Management App</span>
+                            <a href="#" style="color: var(--primary);"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">
+                            โปรแกรมจัดการข้อมูลการลงทะเบียนเรียนของนิสิต พัฒนาด้วย Python และ SQLite3
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">SQLite</span>
+                            <span class="tag">GUI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activities & Interests -->
+                <div class="card">
+                    <h3 class="card-title"><i class="fa-solid fa-star"></i> กิจกรรมที่เข้าร่วม</h3>
+                    <div class="timeline-item">
+                        <div class="timeline-date">ปีการศึกษา 2566</div>
+                        <div class="timeline-title">คณะกรรมการฝ่ายสโมสรนิสิต</div>
+                        <div class="timeline-subtitle">ดูแลการจัดกิจกรรมรับน้อง และงานวิชาการประจำปี</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">ปีการศึกษา 2566</div>
+                        <div class="timeline-title">เข้าร่วมงาน Hackathon 2023</div>
+                        <div class="timeline-subtitle">แข่งขันการพัฒนาซอฟต์แวร์ต้นแบบในเวลา 24 ชั่วโมง</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2026 Developed by <span style="color: var(--primary);">นายสมชาย ใจดี</span> • Hosted on GitHub Pages</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript For Theme Switcher -->
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeText = document.getElementById('themeText');
+        const icon = themeToggleBtn.querySelector('i');
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            if (newTheme === 'light') {
+                themeText.textContent = 'Dark Mode';
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                themeText.textContent = 'Light Mode';
+                icon.className = 'fa-solid fa-moon';
+            }
+        });
+    </script>
 </body>
 </html>
